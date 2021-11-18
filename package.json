@@ -1,5 +1,6 @@
 {
   "name": "go-interface-annotations",
+  "repository": "https://github.com/galkowskit/go-interface-annotations",
   "displayName": "Go Interface Annotations",
   "description": "A very WIP extension that adds some visual marks (and navigation) between interfaces and structs.",
   "version": "0.0.1",

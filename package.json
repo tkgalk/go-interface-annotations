@@ -4,6 +4,7 @@
   "displayName": "Go Interface Annotations",
   "description": "A very WIP extension that adds some visual marks (and navigation) between interfaces and structs.",
   "version": "0.0.1",
+  "publisher": "galkowskit",
   "engines": {
     "vscode": "^1.62.0"
   },

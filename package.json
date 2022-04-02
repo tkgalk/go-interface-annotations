@@ -1,9 +1,13 @@
 {
   "name": "go-interface-annotations",
-  "repository": "https://github.com/galkowskit/go-interface-annotations",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/galkowskit/go-interface-annotations"
+  },
+  "icon": "gopher.png",
   "displayName": "Go Interface Annotations",
   "description": "A very WIP extension that adds some visual marks (and navigation) between interfaces and structs.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "galkowskit",
   "engines": {
     "vscode": "^1.62.0"

@@ -9,31 +9,22 @@ export class AnnotationLensProvider
   public async provideCodeLenses(
     document: vscode.TextDocument
   ): Promise<vscode.CodeLens[]> {
-    const structsAndInterfaces = await this.getDocumentStructsAndInterfaces(
-      document
-    );
+    const goSymbols = await this.getGoSymbols(document);
 
     const results: AnnotationLens[] = [];
-    for (const structOrInterface of structsAndInterfaces) {
-      const symbolInfo = await SymbolInfo.create(structOrInterface);
+    for (const goSymbol of goSymbols) {
+      const symbolInfo = await SymbolInfo.create(goSymbol);
       const activeEditor = vscode.window.activeTextEditor;
       if (!activeEditor) {
         return [];
       }
 
-      const locations =
-        (await vscode.commands.executeCommand<vscode.Location[]>(
-          "vscode.executeImplementationProvider",
-          activeEditor.document.uri,
-          symbolInfo.symbol.location.range.start
-        )) ?? [];
-
+      const locations = await this.getSymbolLocations(activeEditor, symbolInfo) ?? [];
       const symbols = await Promise.all(locations.map(SymbolInfo.getSymbol));
-
-      console.log(`${symbolInfo.symbol.name} - ${symbols.length}`);
       if (symbols.length === 0) {
         continue;
       }
+
       const annotation = new Annotation(symbolInfo.symbol, symbols);
       results.push(new AnnotationLens(annotation));
     }
@@ -41,11 +32,20 @@ export class AnnotationLensProvider
     return results;
   }
 
-  private async getDocumentStructsAndInterfaces(document: vscode.TextDocument) {
+  private async getSymbolLocations(te: vscode.TextEditor, si: SymbolInfo): Promise<vscode.Location[]> {
+    return vscode.commands.executeCommand<vscode.Location[]>(
+      "vscode.executeImplementationProvider",
+      te.document.uri,
+      si.symbol.location.range.start
+    );
+  }
+
+  private async getGoSymbols(document: vscode.TextDocument) {
     const symbols = (await vscode.commands.executeCommand<
       (vscode.SymbolInformation & vscode.DocumentSymbol)[]
     >("vscode.executeDocumentSymbolProvider", document.uri))!.filter(
       (symbol) =>
+        symbol.kind === vscode.SymbolKind.Class ||
         symbol.kind === vscode.SymbolKind.Struct ||
         symbol.kind === vscode.SymbolKind.Interface
     );

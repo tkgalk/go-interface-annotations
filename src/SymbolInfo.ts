@@ -27,6 +27,7 @@ export class SymbolInfo {
     this.symbol = symbol;
 
     if (
+      this.symbol.kind !== vscode.SymbolKind.Class &&
       this.symbol.kind !== vscode.SymbolKind.Struct &&
       this.symbol.kind !== vscode.SymbolKind.Interface
     ) {

@@ -13,8 +13,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18
+      - name: install dependencies
+        run: npm install
       - name: publish
         if: success() && startsWith(github.ref, 'refs/tags/releases/')
-        run: npm run deploy
+        uses: JCofman/vscodeaction@master
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        with:
+          args: publish -p $VSCE_PAT

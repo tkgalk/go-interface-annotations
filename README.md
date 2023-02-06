@@ -1,4 +1,4 @@
-# Go Interface Annotate
+# Go Interface Annotations
 
 ![Demo](./assets/demo.png)
 

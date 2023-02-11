@@ -5,6 +5,7 @@ All notable changes to the "go-interface-annotations" extension will be document
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
 ## [Unreleased]
+- Added a link to the extension marketplace to README.
 
 ## [0.1.0]
 - Adds support for non-struct implementations like `int` et cetera ([#4](https://github.com/galkowskit/go-interface-annotations/issues/4)).
